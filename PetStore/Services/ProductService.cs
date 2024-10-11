@@ -14,9 +14,16 @@ namespace PetStore.Services
         }
 
 
-        public Product GetProductById(int id)
+        public Product? GetProductById(string id)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrEmpty(id))
+                throw new ArgumentNullException(nameof(id), "The id can not be null");
+
+            if (!int.TryParse(id, out var productId))
+                throw new ArgumentException("{0} is not a valid id", id);
+
+            var bp = _repository.GetById(productId);
+            return _repository.GetById(productId);
         }
 
         public IEnumerable<Product> GetProducts()

@@ -2,7 +2,7 @@
 
 namespace PetStore.Models
 {
-    public struct Product
+    public class Product
     {
         public int Id { get; set; }
 

@@ -25,6 +25,8 @@ namespace PetStoreTests.Services
             _productRepository.Setup(x => x.GetAll())
                 .Returns(mock_products);
 
+            _productRepository.Setup(x => x.GetById(It.IsAny<int>()))
+                .Returns((int id) =>  mock_products().FirstOrDefault(product => product.Id == id));
 
             _productService = new ProductService(_productRepository.Object);
         }
@@ -36,8 +38,50 @@ namespace PetStoreTests.Services
             Assert.That(products.Any(), Is.True);          
         }
 
-        private IEnumerable<Product> mock_products()
+        [Test]
+        public void GetProductById_InputIsInvalid_ThrowException()
         {
+            // arrange
+            var id = string.Empty;
+            var invalidId = "invalid";
+
+            // act           
+            // assert
+            Assert.Throws<ArgumentNullException>(() => _productService.GetProductById(null));
+            Assert.Throws<ArgumentNullException>(() => _productService.GetProductById(id));
+
+            Assert.Throws<ArgumentException>(() => _productService.GetProductById(invalidId));
+        }
+
+        [Test]
+        public void GetProductById_IdDoesntExists_ReturnNull()
+        {
+            // arrange
+            var id = "99";
+
+            // act
+            var product = _productService.GetProductById(id);
+
+            // assert
+            Assert.That(product, Is.Null);
+        }
+
+        [Test]
+        public void GetProductById_IdValid_ReturnProduct()
+        {
+            // arrange
+            var id = "9";
+
+            // act
+            var product = _productService.GetProductById(id);
+
+            // assert
+            Assert.That(product, Is.Not.Null);
+            Assert.That(product.Name, Is.EqualTo("Squeaky Toy"));
+        }
+
+        private IEnumerable<Product> mock_products()
+        {           
             List<Product> products = new()
             {
                 // Food Category

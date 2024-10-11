@@ -6,6 +6,6 @@ namespace PetStore.Repositories.Interfaces
     {
         public IEnumerable<Product> GetAll();
 
-        public Product GetById(int id);
+        public Product? GetById(int id);
     }
 }

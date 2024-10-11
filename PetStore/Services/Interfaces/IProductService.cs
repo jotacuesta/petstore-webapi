@@ -6,6 +6,6 @@ namespace PetStore.Services.Interfaces
     {
         public IEnumerable<Product> GetProducts();
 
-        public Product GetProductById(int id);
+        public Product? GetProductById(string id);
     }
 }

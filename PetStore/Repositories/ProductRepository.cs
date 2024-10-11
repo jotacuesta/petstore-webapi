@@ -16,9 +16,12 @@ namespace PetStore.Repositories
             return mock_products();
         }
 
-        public Product GetById(int id)
+        public Product? GetById(int id)
         {
-            throw new NotImplementedException();
+            var products = mock_products();
+
+            return products
+                .FirstOrDefault(product => product.Id == id);
         }
 
         private IEnumerable<Product> mock_products()
